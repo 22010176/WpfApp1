@@ -1,25 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using WpfApp1.Model;
 
 namespace WpfApp1.Converter
 {
-    [ValueConversion(typeof(ObservableCollection<>), typeof(object))]
+    [ValueConversion(typeof(object), typeof(string))]
     class TestConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object? value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            return value.ToString() + " aaaaa";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            return new object();
         }
     }
 }

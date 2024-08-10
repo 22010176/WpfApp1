@@ -2,7 +2,9 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:WpfApp1"
+             xmlns:conv="clr-namespace:WpfApp1.Converter"
              StartupUri="View/MainWindow.xaml">
+
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -11,6 +13,8 @@
                 <ResourceDictionary Source="View/ResourceDictionary/LabelStyles.xaml"/>
                 <ResourceDictionary Source="View/ResourceDictionary/DataGridStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+
+            <conv:TestConverter x:Key="TestConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

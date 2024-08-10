@@ -7,13 +7,17 @@ using System.Windows.Input;
 
 namespace WpfApp1.MVVM
 {
-    class Command : ICommand
+    class RelayCommand : ICommand
     {
-        Func<object?, bool>? canExecute;
         Action<object?> execute;
-        public event EventHandler? CanExecuteChanged;
+        Func<object?, bool>? canExecute;
+        public event EventHandler? CanExecuteChanged
+        {
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
+        }
 
-        public Command(Action<object?> execute, Func<object?, bool>? canExecute = null)
+        public RelayCommand(Action<object?> execute, Func<object?, bool>? canExecute = null)
         {
             this.execute = execute;
             this.canExecute = canExecute;
@@ -21,7 +25,7 @@ namespace WpfApp1.MVVM
 
         public bool CanExecute(object? parameter)
         {
-            return canExecute == null || canExecute(parameter);
+            return canExecute == null || canExecute.Invoke(parameter);
         }
 
         public void Execute(object? parameter)

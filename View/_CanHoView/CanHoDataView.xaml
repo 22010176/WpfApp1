@@ -11,7 +11,7 @@
             <Setter Property="Margin" Value="4"/>
         </Style>
     </UserControl.Resources>
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"/>
@@ -26,14 +26,14 @@
         <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Content="Can Ho" Style="{StaticResource H1}"/>
 
         <StackPanel Grid.Column="0" Grid.Row="1">
-            <StackPanel>
+            <StackPanel>    
                 <Label Content="Ten Can Ho" Style="{StaticResource H4}"/>
-                <TextBox x:Name="tenF" Style="{StaticResource BoxStyle}" Text="{Binding FormData.TenCanHo}"/>
+                <TextBox x:Name="tenF" Style="{StaticResource BoxStyle}" Text="{Binding SelectedItem.TenCanHo, Mode=TwoWay}"/>
             </StackPanel>
 
             <StackPanel>
                 <Label Content="Tang" Style="{StaticResource H4}"/>
-                <TextBox x:Name="tangF" Style="{StaticResource BoxStyle}" Text="{Binding FormData.Tang}"/>
+                <TextBox x:Name="tangF" Style="{StaticResource BoxStyle}" Text="{Binding SelectedItem.Tang, Mode=TwoWay}"/>
             </StackPanel>
 
             <Grid Height="100" Margin="5,10,5,0">
@@ -46,11 +46,12 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
-                <Button x:Name="AddBtn" Content="Add" Grid.Column="0" Grid.Row="0" Style="{StaticResource DbBtnStyle}"/>
-                <Button x:Name="EditBtn" Content="Edit" Grid.Column="1" Grid.Row="0" Style="{StaticResource DbBtnStyle}"/>
-                <Button x:Name="DeleteBtn" Content="Delete" Grid.Column="0" Grid.Row="1" Style="{StaticResource DbBtnStyle}"/>
-                <Button x:Name="ClearBtn" Content="Clear" Grid.Column="1" Grid.Row="1" Style="{StaticResource DbBtnStyle}"/>
+                <Button x:Name="AddBtn" Content="Add" Grid.Column="0" Grid.Row="0" Style="{StaticResource DbBtnStyle}" Command="{Binding AddCommand}" Click="AddBtn_Click"/>
+                <Button x:Name="EditBtn" Content="Edit" Grid.Column="1" Grid.Row="0" Style="{StaticResource DbBtnStyle}" Command="{Binding EditCommand}" Click="EditBtn_Click"/>
+                <Button x:Name="DeleteBtn" Content="Delete" Grid.Column="0" Grid.Row="1" Style="{StaticResource DbBtnStyle}" Command="{Binding DeleteCommand}" Click="DeleteBtn_Click"/>
+                <Button x:Name="ClearBtn" Content="Clear" Grid.Column="1" Grid.Row="1" Style="{StaticResource DbBtnStyle}" Command="{Binding ClearCommand}" Click="ClearBtn_Click"/>
             </Grid>
+            <Label  Content="{Binding SelectedItem}"/>
         </StackPanel>
 
         <Grid Grid.Column="1" Grid.Row="1" Margin="10,0,0,0">
@@ -58,13 +59,13 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            
+
             <StackPanel Orientation="Horizontal">
                 <Label Content="Find" Style="{StaticResource H4}"/>
                 <TextBox x:Name="timF" Width="300" Style="{StaticResource BoxStyle}" Margin="5"/>
             </StackPanel>
-            
-            <DataGrid x:Name="DataTable" ItemsSource="{Binding Items}" VerticalAlignment="Stretch" Grid.Row="1" SelectedItem="{Binding SelectedItem}" MouseDown="DataTable_MouseDown" SelectionMode="Single">
+
+            <DataGrid x:Name="DataTable" ItemsSource="{Binding Items}" VerticalAlignment="Stretch" Grid.Row="1" SelectedItem="{Binding SelectedItem}" SelectionMode="Single" SelectedCellsChanged="DataTable_SelectedCellsChanged">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="ID" Width="2*" Binding="{Binding IdCanHo}"/>
                     <DataGridTextColumn Header="Ten" Width="6*" Binding="{Binding TenCanHo}"/>

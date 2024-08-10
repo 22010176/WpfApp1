@@ -25,17 +25,34 @@ namespace WpfApp1.View._CanHoView
         {
             InitializeComponent();
             DataContext = new CanHoDataVM();
-            SetBtnState(true);
+            
+            //EditBtn.IsEnabled = true;
         }
-        void SetBtnState(bool state)
+        private void AddBtn_Click(object sender, RoutedEventArgs e)
         {
-            AddBtn.IsEnabled = state;
-            EditBtn.IsEnabled = DeleteBtn.IsEnabled = !state;
+            
         }
 
-        private void DataTable_MouseDown(object sender, MouseButtonEventArgs e)
+        private void EditBtn_Click(object sender, RoutedEventArgs e)
         {
-            SetBtnState(false);
+
+        }
+
+        private void DeleteBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ClearBtn_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void DataTable_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+        {
+            
+
         }
     }
 }
+

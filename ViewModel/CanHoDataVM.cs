@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,10 +12,10 @@ namespace WpfApp1.ViewModel
 {
     class CanHoDataVM : ViewModelBase
     {
-        public Command AddCommand { get; }
-        public Command EditCommand { get; }
-        public Command DeleteCommand { get; }
-        public Command ClearCommand { get; }
+        public RelayCommand AddCommand { get; }
+        public RelayCommand EditCommand { get; }
+        public RelayCommand DeleteCommand { get; }
+        public RelayCommand ClearCommand { get; }
 
         private ObservableCollection<CanHo> items;
 
@@ -35,28 +36,15 @@ namespace WpfApp1.ViewModel
             set
             {
                 selectedItem = value;
-                FormData = SelectedItem == null ? new CanHo() : new CanHo(SelectedItem);
-            }
-        }
-
-        private CanHo formData;
-        private Command addCommand;
-
-        public CanHo FormData
-        {
-            get { return formData; }
-            set
-            {
-                formData = value;
                 OnPropertyChange();
             }
         }
 
         public CanHoDataVM()
         {
-            AddCommand = new(execute => _AddCommand());
-            EditCommand = new(execute => _EditCommand(), canExecute => _CanEditCommand());
-            DeleteCommand = new(execute => _DeleteCommand(), canExecute => _CanDeleteCommand());
+            AddCommand = new(execute => _AddCommand(), canExecute => !_CanModifyCommand());
+            EditCommand = new(execute => _EditCommand(), canExecute => _CanModifyCommand());
+            DeleteCommand = new(execute => _DeleteCommand(), canExecute => _CanModifyCommand());
             ClearCommand = new(execute => _ClearCommand());
 
             Items = [
@@ -64,25 +52,32 @@ namespace WpfApp1.ViewModel
                 new CanHo("Test2","a4",4),
                 new CanHo("Test3","a44",5)
             ];
-
-            FormData = new("", "", 1);
+            selectedItem = null;
         }
 
         void _AddCommand()
         {
+            Items.Add(new CanHo(SelectedItem));
+            SelectedItem = null;
         }
+
         void _EditCommand()
         {
+            if (SelectedItem == null) return;
+            Items[Items.IndexOf(SelectedItem)] = SelectedItem;
         }
-        bool _CanEditCommand()
+        void _DeleteCommand()
         {
-            return true;
+            if (SelectedItem == null) return;
+            Items.Remove(SelectedItem);
         }
-        void _DeleteCommand() { }
-        bool _CanDeleteCommand()
+        bool _CanModifyCommand()
         {
-            return true;
+            return SelectedItem != null && Items.Any(i => i.IdCanHo == SelectedItem.IdCanHo);
         }
-        void _ClearCommand() { }
+        void _ClearCommand()
+        {
+            SelectedItem = null;
+        }
     }
 }

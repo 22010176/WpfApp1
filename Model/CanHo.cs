@@ -31,24 +31,29 @@ namespace WpfApp1.Model
             get { return tang; }
             set { tang = value; }
         }
-        public CanHo()
-        {
-            idCanHo = "";
-            tenCanHo = "";
-            tang = 1;
-        }
         public CanHo(string idCanHo, string tenCanHo, int tang)
         {
             this.idCanHo = idCanHo;
             this.tenCanHo = tenCanHo;
             this.tang = tang;
         }
-        public CanHo(CanHo src)
+        public CanHo(CanHo? src = null)
         {
-            idCanHo = src.idCanHo;
-            tenCanHo = src.tenCanHo;
-            tang = src.tang;
+            if (src != null)
+            {
+                idCanHo = src.idCanHo;
+                tenCanHo = src.tenCanHo;
+                tang = src.tang;
+            }
+            else
+            {
+
+                idCanHo = Guid.NewGuid().ToString();
+                tenCanHo = "";
+                tang = 1;
+            };
         }
+
         // override object.Equals
         public override bool Equals(object? obj)
         {
@@ -61,6 +66,11 @@ namespace WpfApp1.Model
         {
             // TODO: write your implementation of GetHashCode() here
             return base.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return $"{idCanHo,10} {tenCanHo,10} {tang,5}";
         }
 
     }
