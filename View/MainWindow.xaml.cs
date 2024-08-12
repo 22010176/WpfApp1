@@ -20,7 +20,7 @@ namespace WpfApp1
             InitializeComponent();
             DataContext = new MainWindowVM();
 
-            PageControl.Content = new CuDanView();
+            PageControl.Content = new CanHoView();
             CuDanBtn.IsEnabled = false;
         }
 

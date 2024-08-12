@@ -25,33 +25,11 @@ namespace WpfApp1.View._CanHoView
         {
             InitializeComponent();
             DataContext = new CanHoDataVM();
-            
-            //EditBtn.IsEnabled = true;
-        }
-        private void AddBtn_Click(object sender, RoutedEventArgs e)
-        {
-            
         }
 
-        private void EditBtn_Click(object sender, RoutedEventArgs e)
+        private void DataTable_LoadingRow(object sender, DataGridRowEventArgs e)
         {
-
-        }
-
-        private void DeleteBtn_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void ClearBtn_Click(object sender, RoutedEventArgs e)
-        {
-            
-        }
-
-        private void DataTable_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
-        {
-            
-
+            e.Row.Header = $"{e.Row.GetIndex() + 1,10}";
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -16,8 +17,9 @@ namespace WpfApp1.ViewModel
         public RelayCommand EditCommand { get; }
         public RelayCommand DeleteCommand { get; }
         public RelayCommand ClearCommand { get; }
+        public RelayCommand FindCommand { get; }
 
-        private ObservableCollection<CanHo> items;
+        private ObservableCollection<CanHo> items = [];
 
         public ObservableCollection<CanHo> Items
         {
@@ -29,13 +31,71 @@ namespace WpfApp1.ViewModel
             }
         }
 
-        private CanHo? selectedItem;
+        private CanHo? selectedItem = null;
         public CanHo? SelectedItem
         {
             get { return selectedItem; }
             set
             {
                 selectedItem = value;
+                if (value != null)
+                {
+                    Tang = value.Tang;
+                    TenCanHo = value.TenCanHo;
+                    DienTich = value.DienTich;
+                }
+                else
+                {
+                    Tang = 1;
+                    TenCanHo = "";
+                    DienTich = 1;
+                }
+                OnPropertyChange();
+            }
+        }
+
+        private string tenCanHo = "";
+        public string TenCanHo
+        {
+            get { return tenCanHo; }
+            set
+            {
+                tenCanHo = value;
+                OnPropertyChange();
+            }
+        }
+
+        private uint tang = 1;
+        public uint Tang
+        {
+            get { return tang; }
+            set
+            {
+                tang = value;
+                OnPropertyChange();
+            }
+        }
+
+        private double dienTich = 1;
+
+        public double DienTich
+        {
+            get { return dienTich; }
+            set
+            {
+                dienTich = value;
+                OnPropertyChange();
+            }
+        }
+
+
+        private string findStr = "";
+        public string FindStr
+        {
+            get { return findStr; }
+            set
+            {
+                findStr = value;
                 OnPropertyChange();
             }
         }
@@ -45,39 +105,48 @@ namespace WpfApp1.ViewModel
             AddCommand = new(execute => _AddCommand(), canExecute => !_CanModifyCommand());
             EditCommand = new(execute => _EditCommand(), canExecute => _CanModifyCommand());
             DeleteCommand = new(execute => _DeleteCommand(), canExecute => _CanModifyCommand());
-            ClearCommand = new(execute => _ClearCommand());
+            ClearCommand = new(execute => Reset());
+            FindCommand = new(execute => _FindCommand());
 
-            Items = [
-                new CanHo("Test1","a",3),
-                new CanHo("Test2","a4",4),
-                new CanHo("Test3","a44",5)
-            ];
-            selectedItem = null;
+            Reset();
         }
 
         void _AddCommand()
         {
-            Items.Add(new CanHo(SelectedItem));
-            SelectedItem = null;
+            CanHo.Add(new CanHo(Guid.NewGuid().ToString(), TenCanHo, Tang, DienTich));
+            Reset();
         }
 
         void _EditCommand()
         {
             if (SelectedItem == null) return;
-            Items[Items.IndexOf(SelectedItem)] = SelectedItem;
+
+            CanHo.Edit(new CanHo(SelectedItem.IdCanHo, TenCanHo, Tang, DienTich));
+            Reset();
         }
         void _DeleteCommand()
         {
             if (SelectedItem == null) return;
-            Items.Remove(SelectedItem);
+            CanHo.Delete(SelectedItem.IdCanHo);
+            Reset();
         }
         bool _CanModifyCommand()
         {
             return SelectedItem != null && Items.Any(i => i.IdCanHo == SelectedItem.IdCanHo);
         }
-        void _ClearCommand()
+        void _FindCommand()
+        {
+            Items = new(CanHo.FindItem(FindStr));
+        }
+
+        void Reset()
         {
             SelectedItem = null;
+            Tang = 1;
+            DienTich = 1;
+            TenCanHo = "";
+            FindStr = "";
+            Items = new(CanHo.Read());
         }
     }
 }

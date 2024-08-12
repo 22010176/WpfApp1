@@ -14,7 +14,6 @@ namespace WpfApp1.MVVM
 
         public void OnPropertyChange([CallerMemberName] string? propertyName = null)
         {
-            Console.WriteLine(propertyName);
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }

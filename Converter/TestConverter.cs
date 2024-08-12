@@ -14,7 +14,7 @@ namespace WpfApp1.Converter
     {
         public object Convert(object? value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value.ToString() + " aaaaa";
+            return value?.ToString() + " aaaaa";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
