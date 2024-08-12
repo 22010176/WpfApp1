@@ -6,12 +6,6 @@
              xmlns:local="clr-namespace:WpfApp1.View._CanHoView"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.Resources>
-        <Style TargetType="Grid">
-            <Setter Property="Margin" Value="4"/>
-        </Style>
-    </UserControl.Resources>
-
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"/>
@@ -38,7 +32,7 @@
             
             <StackPanel>
                 <Label Content="Dien Tich" Style="{StaticResource H4}"/>
-                <TextBox x:Name="dtF" Style="{StaticResource BoxStyle}" Text="{Binding DienTich, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox x:Name="dtF" Style="{StaticResource BoxStyle}" Text="{Binding DienTich, UpdateSourceTrigger=PropertyChanged, Delay=500}"/>
             </StackPanel>
 
             <Grid Height="100" Margin="5,10,5,0">
@@ -56,6 +50,7 @@
                 <Button x:Name="DeleteBtn" Content="Delete" Grid.Column="0" Grid.Row="1" Style="{StaticResource DbBtnStyle}" Command="{Binding DeleteCommand}"/>
                 <Button x:Name="ClearBtn" Content="Clear" Grid.Column="1" Grid.Row="1" Style="{StaticResource DbBtnStyle}" Command="{Binding ClearCommand}"/>
             </Grid>
+            
         </StackPanel>
 
         <Grid Grid.Column="1" Grid.Row="1" Margin="10,0,0,0">

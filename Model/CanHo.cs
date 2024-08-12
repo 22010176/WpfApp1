@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace WpfApp1.Model
 {
-    class CanHo
+    internal class CanHo
     {
         public static void Add(CanHo ch)
         {
@@ -16,16 +16,19 @@ namespace WpfApp1.Model
             try
             {
                 conn.Open();
-                MySqlCommand command = new MySqlCommand("INSERT INTO canho (id, tenCanHo, tang, dienTich) VALUES (@id, @ten, @tang, @dt);", conn);
+                MySqlCommand command = new("INSERT INTO canho (id, tenCanHo, tang, dienTich) VALUES (@id, @ten, @tang, @dt);", conn);
                 command.Parameters.AddWithValue("@id", ch.IdCanHo);
                 command.Parameters.AddWithValue("@ten", ch.TenCanHo);
                 command.Parameters.AddWithValue("@tang", ch.Tang);
-                command.Parameters.AddWithValue("@dt", ch.Tang);
+                command.Parameters.AddWithValue("@dt", ch.DienTich);
 
                 command.ExecuteNonQuery();
                 conn.Close();
             }
-            catch (Exception) { }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
         public static void Edit(CanHo ch)
@@ -34,7 +37,7 @@ namespace WpfApp1.Model
             try
             {
                 conn.Open();
-                MySqlCommand command = new MySqlCommand("UPDATE canho SET tenCanHo = @ten, tang = @tang, dienTich = @dt WHERE id = @id;", conn);
+                MySqlCommand command = new("UPDATE canho SET tenCanHo = @ten, tang = @tang, dienTich = @dt WHERE id = @id;", conn);
                 command.Parameters.AddWithValue("@ten", ch.TenCanHo);
                 command.Parameters.AddWithValue("@tang", ch.Tang);
                 command.Parameters.AddWithValue("@id", ch.IdCanHo);
@@ -43,8 +46,10 @@ namespace WpfApp1.Model
                 command.ExecuteNonQuery();
                 conn.Close();
             }
-            catch (Exception) { }
-
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
         public static void Delete(CanHo ch)
@@ -53,13 +58,14 @@ namespace WpfApp1.Model
             try
             {
                 connection.Open();
-                MySqlCommand cmd = new MySqlCommand("DELETE FROM canho WHERE id = @id", connection);
+                MySqlCommand cmd = new("DELETE FROM canho WHERE id = @id", connection);
                 cmd.Parameters.AddWithValue("@id", ch.IdCanHo);
                 cmd.ExecuteNonQuery();
                 connection.Close();
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e);
             }
 
         }
@@ -68,7 +74,7 @@ namespace WpfApp1.Model
             MySqlConnection connection = Database.GetConnection();
 
             connection.Open();
-            MySqlCommand cmd = new MySqlCommand("DELETE FROM canho WHERE id = @id", connection);
+            MySqlCommand cmd = new("DELETE FROM canho WHERE id = @id", connection);
             cmd.Parameters.AddWithValue("@id", id);
 
             cmd.ExecuteNonQuery();
@@ -95,7 +101,7 @@ namespace WpfApp1.Model
             MySqlConnection conn = Database.GetConnection();
 
             conn.Open();
-            MySqlCommand cmd = new MySqlCommand("SELECT * FROM canho WHERE tenCanHo LIKE @str ORDER BY tang ASC, tenCanHo ASC", conn);
+            MySqlCommand cmd = new("SELECT * FROM canho WHERE tenCanHo LIKE @str ORDER BY tang ASC, tenCanHo ASC", conn);
             cmd.Parameters.AddWithValue("@str", $"%{str}%");
 
             MySqlDataReader data = cmd.ExecuteReader();
@@ -105,18 +111,18 @@ namespace WpfApp1.Model
 
             return ch;
         }
-        private string tenCanHo;
-        public string TenCanHo
-        {
-            get { return tenCanHo; }
-            set { tenCanHo = value; }
-        }
-
         private string idCanHo;
         public string IdCanHo
         {
             get { return idCanHo; }
             set { idCanHo = value; }
+        }
+
+        private string tenCanHo;
+        public string TenCanHo
+        {
+            get { return tenCanHo; }
+            set { tenCanHo = value; }
         }
 
         private uint tang;
@@ -127,13 +133,11 @@ namespace WpfApp1.Model
         }
 
         private double dienTich;
-
         public double DienTich
         {
             get { return dienTich; }
             set { dienTich = value; }
         }
-
 
         public CanHo(string idCanHo, string tenCanHo, uint tang, double dienTich)
         {
@@ -156,11 +160,8 @@ namespace WpfApp1.Model
             if (obj == null || GetType() != obj.GetType()) return false;
             return ((CanHo)obj).idCanHo == idCanHo;
         }
-
-        // override object.GetHashCode
         public override int GetHashCode()
         {
-            // TODO: write your implementation of GetHashCode() here
             return base.GetHashCode();
         }
 
@@ -168,6 +169,7 @@ namespace WpfApp1.Model
         {
             return $"({idCanHo}, {tenCanHo}, {tang}, {dienTich})";
         }
+
 
     }
 }

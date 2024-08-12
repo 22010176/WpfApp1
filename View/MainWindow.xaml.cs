@@ -18,10 +18,8 @@ namespace WpfApp1
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new MainWindowVM();
-
             PageControl.Content = new CanHoView();
-            CuDanBtn.IsEnabled = false;
+            CanHoBtn.IsEnabled = false;
         }
 
         private void StackPanel_Click(object sender, RoutedEventArgs e)
