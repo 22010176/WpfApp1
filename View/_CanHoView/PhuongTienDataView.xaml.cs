@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfApp1.ViewModel;
 
 namespace WpfApp1.View._CanHoView
 {
@@ -23,6 +24,12 @@ namespace WpfApp1.View._CanHoView
         public PhuongTienDataView()
         {
             InitializeComponent();
+            DataContext = new PhuongTienDataVM();
+        }
+
+        private void DataTable_LoadingRow(object sender, DataGridRowEventArgs e)
+        {
+            e.Row.Header = $"{e.Row.GetIndex() + 1,10}";
         }
     }
 }

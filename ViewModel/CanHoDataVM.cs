@@ -1,7 +1,9 @@
-﻿using MySql.Data.MySqlClient;
+﻿using Google.Protobuf.WellKnownTypes;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -113,30 +115,32 @@ namespace WpfApp1.ViewModel
 
         void _AddCommand()
         {
-            CanHo.Add(new CanHo(Guid.NewGuid().ToString(), TenCanHo, Tang, DienTich));
+            Database.Query($"INSERT INTO canho {CanHo.Fields} VALUES ('{Guid.NewGuid().ToString()}', '{TenCanHo}', {Tang}, {$"{DienTich}".Replace(",", ".")});");
             Reset();
         }
 
         void _EditCommand()
         {
             if (SelectedItem == null) return;
-
-            CanHo.Edit(new CanHo(SelectedItem.IdCanHo, TenCanHo, Tang, DienTich));
+            string cmd = $"UPDATE canho SET tenCanHo = '{TenCanHo}', dienTich = {$"{DienTich}".Replace(",", ".")}, tang = {Tang} WHERE id = '{SelectedItem.Id}';";
+            Console.WriteLine(cmd);
+            Database.Query(cmd);
             Reset();
         }
         void _DeleteCommand()
         {
             if (SelectedItem == null) return;
-            CanHo.Delete(SelectedItem.IdCanHo);
+
+            Database.Query($"DELETE FROM canho WHERE id = '{SelectedItem.Id}';");
             Reset();
         }
         bool _CanModifyCommand()
         {
-            return SelectedItem != null && Items.Any(i => i.IdCanHo == SelectedItem.IdCanHo);
+            return SelectedItem != null && Items.Any(i => i.Id == SelectedItem.Id);
         }
         void _FindCommand()
         {
-            Items = new(CanHo.FindItem(FindStr));
+            Items = new(Database.Query($"SELECT * FROM canho WHERE tenCanHo LIKE '%{FindStr}%'", CanHo.Converter));
         }
 
         void Reset()
@@ -146,7 +150,11 @@ namespace WpfApp1.ViewModel
             DienTich = 1;
             TenCanHo = "";
             FindStr = "";
-            Items = new(CanHo.Read());
+
+            Items = new(Database.Query(
+                "SELECT * FROM canho ORDER BY tang ASC, tenCanHo ASC;",
+                CanHo.Converter
+            ));
         }
     }
 }

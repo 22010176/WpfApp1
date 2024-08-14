@@ -3,10 +3,65 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:WpfApp1.View._CanHoView"
+             xmlns:local="clr-namespace:WpfApp1.View._CanHoView" xmlns:viewmodel="clr-namespace:WpfApp1.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:PhuongTienDataVM}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Label Content="Phuong Tien"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="7*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="8*"/>
+            </Grid.RowDefinitions>
+
+            <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Content="Phuong Tien" Style="{StaticResource H1}"/>
+
+            <StackPanel Grid.Column="0" Grid.Row="1">
+                <StackPanel>
+                    <Label Content="PhuongTien" Style="{StaticResource H4}"/>
+                    <TextBox x:Name="tenPTF" Style="{StaticResource BoxStyle}" Text="{Binding FormData.TenPhuongTien, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
+
+                <Grid Height="100" Margin="5,10,5,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <Button x:Name="AddBtn" Content="Add" Grid.Column="0" Grid.Row="0" Style="{StaticResource DbBtnStyle}" Command="{Binding AddCommand}"/>
+                    <Button x:Name="EditBtn" Content="Edit" Grid.Column="1" Grid.Row="0" Style="{StaticResource DbBtnStyle}" Command="{Binding EditCommand}"/>
+                    <Button x:Name="DeleteBtn" Content="Delete" Grid.Column="0" Grid.Row="1" Style="{StaticResource DbBtnStyle}" Command="{Binding DeleteCommand}"/>
+                    <Button x:Name="ClearBtn" Content="Clear" Grid.Column="1" Grid.Row="1" Style="{StaticResource DbBtnStyle}" Command="{Binding ClearCommand}"/>
+                </Grid>
+            </StackPanel>
+
+            <Grid Grid.Column="1" Grid.Row="1" Margin="10,0,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Find" Style="{StaticResource H4}"/>
+                    <TextBox x:Name="timF" Width="300" Style="{StaticResource BoxStyle}" Margin="5" Text="{Binding FindStr, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Button x:Name="FindBtn" Content="Find" Style="{StaticResource DbBtnStyle}" Padding="10,0,10,0" FontSize="13" Command="{Binding FindCommand}"/>
+                </StackPanel>
+
+                <DataGrid x:Name="DataTable" ItemsSource="{Binding Items}" VerticalAlignment="Stretch" Grid.Row="1" SelectedItem="{Binding SelectedItem}" SelectionMode="Single" LoadingRow="DataTable_LoadingRow">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Width="2*" Binding="{Binding Id}"/>
+                        <DataGridTextColumn Header="Phuong tien" Width="6*" Binding="{Binding TenPhuongTien}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Grid>
     </Grid>
 </UserControl>

@@ -76,20 +76,22 @@ namespace WpfApp1.ViewModel
 
         void _AddCommand()
         {
-            DichVu.Add(FormData);
+            Database.Query($"INSERT INTO phidichvu {DichVu.Fields} VALUES {FormData}");
             Reset();
         }
 
         void _EditCommand()
         {
             if (SelectedItem == null) return;
-            DichVu.Edit(new(SelectedItem.Id, FormData.TenDichVu, FormData.Gia));
+            string cmd = $"UPDATE phidichvu SET tenDV = '{FormData.TenDichVu}', gia = {FormData.Gia} WHERE id = '{SelectedItem.Id}';";
+            Database.Query(cmd);
             Reset();
         }
         void _DeleteCommand()
         {
             if (SelectedItem == null) return;
-            DichVu.Delete(SelectedItem);
+            string cmd = $"DELETE FROM phidichvu WHERE id = '{SelectedItem.Id}';";
+            Database.Query(cmd);
             Reset();
         }
         bool _CanModifyCommand()
@@ -98,13 +100,14 @@ namespace WpfApp1.ViewModel
         }
         void _FindCommand()
         {
-            Items = new(DichVu.FindItem(FindStr));
+            Items = new(Database.Query($"SELECT * FROM phidichvu WHERE tenDV LIKE '%{FindStr}%' ORDER BY tenDV ASC, gia ASC;", DichVu.Converter));
         }
 
         void Reset()
         {
             SelectedItem = null;
-            Items = new(DichVu.FindItem(FindStr));
+            FindStr = "";
+            Items = new(Database.Query($"SELECT * FROM phidichvu ORDER BY tenDV ASC, gia ASC;", DichVu.Converter));
         }
     }
 }

@@ -67,7 +67,7 @@
 
             <DataGrid x:Name="DataTable" ItemsSource="{Binding Items, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Stretch" Grid.Row="1" SelectedItem="{Binding SelectedItem}" SelectionMode="Single" LoadingRow="DataTable_LoadingRow">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ID" Width="3*" Binding="{Binding IdCanHo}"/>
+                    <DataGridTextColumn Header="ID" Width="3*" Binding="{Binding Id}"/>
                     <DataGridTextColumn Header="Ten" Width="6*" Binding="{Binding TenCanHo}"/>
                     <DataGridTextColumn Header="Dien Tich" Width="2*" Binding="{Binding DienTich}"/>
                     <DataGridTextColumn Header="Tang" Width="2*" Binding="{Binding Tang}"/>
