@@ -18,7 +18,7 @@ namespace WpfApp1.View
     /// <summary>
     /// Interaction logic for ThongKeView.xaml
     /// </summary>
-    public partial class ThongKeView : UserControl
+    public partial class ThongKeView : System.Windows.Controls.UserControl
     {
         public ThongKeView()
         {

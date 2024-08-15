@@ -96,7 +96,9 @@ namespace WpfApp1.ViewModel
         }
         bool _CanModifyCommand()
         {
-            return SelectedItem != null && Items.Any(i => i.Id == SelectedItem.Id);
+            //List<DichVu> a = Database.Query($"SELECT * FROM phidichvu WHERE id = '{SelectedItem.Id}';", DichVu.Converter);
+            //Console.WriteLine(a[0]);
+            return SelectedItem != null && Database.Query($"SELECT * FROM phidichvu WHERE id = '{SelectedItem.Id}' LIMIT 1;", DichVu.Converter).Count > 0;
         }
         void _FindCommand()
         {

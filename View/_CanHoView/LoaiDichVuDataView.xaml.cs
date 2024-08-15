@@ -19,7 +19,7 @@ namespace WpfApp1.View._CanHoView
     /// <summary>
     /// Interaction logic for LoaiDichVuDataView.xaml
     /// </summary>
-    public partial class LoaiDichVuDataView : UserControl
+    public partial class LoaiDichVuDataView : System.Windows.Controls.UserControl
     {
         public LoaiDichVuDataView()
         {

@@ -18,7 +18,7 @@ namespace WpfApp1.View
     /// <summary>
     /// Interaction logic for CuDanView.xaml
     /// </summary>
-    public partial class CuDanView : UserControl
+    public partial class CuDanView : System.Windows.Controls.UserControl
     {
         public CuDanView()
         {

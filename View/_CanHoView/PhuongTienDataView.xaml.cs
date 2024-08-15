@@ -19,7 +19,7 @@ namespace WpfApp1.View._CanHoView
     /// <summary>
     /// Interaction logic for PhuongTienDataView.xaml
     /// </summary>
-    public partial class PhuongTienDataView : UserControl
+    public partial class PhuongTienDataView : System.Windows.Controls.UserControl
     {
         public PhuongTienDataView()
         {

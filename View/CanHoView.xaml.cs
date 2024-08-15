@@ -19,7 +19,7 @@ namespace WpfApp1.View
     /// <summary>
     /// Interaction logic for CanHoView.xaml
     /// </summary>
-    public partial class CanHoView : UserControl
+    public partial class CanHoView : System.Windows.Controls.UserControl
     {
         public CanHoView()
         {
